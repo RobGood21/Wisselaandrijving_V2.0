@@ -10,5 +10,7 @@ Believe me THIS IS THE MOST RELIABLE WAY TO DRIVE SWITCHES, TURNOUT ON YOUR LAYO
 This solution will end all your misery you have with failing magnetic or servo turnout engines.
 I have many more information like video and detailled explanation on my website: wwww.wisselmotor.nl 
 Please feel free to use, and please send me some feedback if you have done...
-If you need help for the shield PCB or other needed hardware for the arduino i have made a special shield for that. Please send mail to: wisselmotor.nl@gmail.com or my personal mail for availability 
+If you need help for the shield PCB or other needed hardware for the arduino please contact me.
+I have made a special shield for the arduino to fix and connect the needed extra components.
+Please send mail to: wisselmotor.nl@gmail.com or my personal mail for availability 
 Thanks for reading...
