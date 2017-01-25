@@ -4,7 +4,7 @@ I used two libraries DCC_DECODER and ACCELSTEPPER for this project I found here 
 It is for use with model rail roads, and perhaps more...?
 This is a sketch for arduino UNO. 
 It drives three stepper motors like model 28BYJ-48
-The motors and the movement can be controlled by DCC messages from a standaard DCC-central as can be bought commercial.
+The motors and the movement can be controlled by DCC messages from a standard DCC-central as can be bought commercial.
 Mainly to be used for driving the turnouts switches of the model rail road. 
 Believe me THIS IS THE MOST RELIABLE WAY TO DRIVE SWITCHES, TURNOUT ON YOUR LAYOUT YOU HAVE EVER SEEN. 
 This solution will end all your misery you have with failing magnetic or servo turnout engines.
