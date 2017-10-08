@@ -1,8 +1,8 @@
 /*
   www.Wisselmotor.nl
 
-  Wisselaandrijving Versie 2.01 (WA-V2.01)
-  December 25th, 2016
+  Wisselaandrijving Versie 2.03 (WA-V2.01)
+ oktober 2017
 
   Programma voor wissel-aandrijvingen voor de modelspoorbaan
   Door: Rob Antonisse, Hoofddorp
@@ -18,23 +18,14 @@
   Sketch stuurt 3 stappen-motoren aan, model 25BYJ-48.
 
   Handleiding, schema, principebeschijving en bouwbeschrijving op www.wisselmotor.nl
-  
-  Complete aandrijving of onderdelen ervan zijnte bestellen via de website, www.wisselmotor.nl of (beter) met een  email naar wisselmotor.nl@gmail.com
-************************
-*
-  aanpassingen in deze versie. V 2.01 december 2016
-  Programmeer modus toegevoegd. DCC adres, handbediende aandrijving, uitslag snelheid en DCC orientatie is met programmeerknop in te stellen.
-  Demo stand toegevoegd,
-  Teksten opgeknapt, geheel humaan beter leesbaar gemaakt.
-  Feedback toegevoegd voor de instellingen, wordt weergeven met een seriele monitor. 
-  
-***************************
+  ************************
   De Pin aansluitingen
    Pin 2 voor de DCC input
    Pin A5 voor de drukknop voor handbediening (optioneel)
-   Motorspoelaansluitingen 3-4-5-6  nulstandschakelaar (7) stepper 0
-   8-9-10-11-(12) stepper 1
-   A0-A1-A2-A3-(A4) stepper 2
+   Motorspoelaansluitingen
+   3-4-5-6  feedbackscwitch (7) stepper 0 (1)
+   8-9-10-11-(12) stepper 1 (2)
+   A0-A1-A2-A3-(A4) stepper 2 (3)
 ********************************
 *
   Geheugenadressen vaan EEPROM (bytes)
@@ -53,14 +44,10 @@
 #include <EEPROM.h>
 #include <AccelStepper.h>
 #include <DCC_Decoder.h>
-
 //****Declaraties variabelen *****
-
 #define kDCC_INTERRUPT 0 //Benodigd, dcc.setupdecoder
 const byte AS = 3; //Aantal steppers, en DCC adressen
-
 int KK; //KK= Keuze knop Welke Stepper wordt met de knop omgeschakeld (eeprom geheugen Byte 0)
-
 boolean KNOPLR = false; //drukknop voor omschakeling richting
 unsigned long TIMER;
 int PLEK; // deze wordt door alle steppers gebruikt...? toch waarde komt uit veld LOC
@@ -77,8 +64,8 @@ typedef struct { //Declaratie van een tabel voor invoer van de dcc adressen.
   int               address;          // (mensen) adres
   byte              dccstate;         // Internal use. DCC state of accessory: 1=on, 0=off
 }
-STEPwissel; //Naamgeving van de bovenstaande tabeltabel
-STEPwissel accessory[AS];  //accessory is declaratie van een array van 4 met bovengenoemde velden.
+STEPwissel;
+STEPwissel accessory[AS];
 
 //*****************************************
 //Instellen van DCC *******
@@ -87,10 +74,7 @@ STEPwissel accessory[AS];  //accessory is declaratie van een array van 4 met bov
 void ConfigureDecoderFunctions() //adressen opgeven aangeroepen uit void setup
 {
   EEPROM.get(20, ODCCA);
-  // Serial.println(ODCCA);
   if ((ODCCA < 1) or (ODCCA > 9999)) ODCCA = 1; //als nog geen adress is bepaald, naar default 1
-  // Serial.println(ODCCA);
-
   accessory[0].address = ODCCA; // DCC address stepper 0
   accessory[1].address = ODCCA + 1;
   accessory[2].address = ODCCA + 2;
@@ -98,8 +82,7 @@ void ConfigureDecoderFunctions() //adressen opgeven aangeroepen uit void setup
 
 void BasicAccDecoderPacket_Handler(int address, boolean activate, byte data)
 /*
-   Deze functie wordt doorgegeven aan de dcc_decoder in void setup,  dcc_loop wordt zo vaak mogelijk in void loop aangeroepen,
-   onderstaande berekening bewerkt het adress als in de dcc dedoder naar humaan leesbaar en begrijpelijke nummering
+com met library decoder
 */
 {
   address -= 1;
@@ -108,42 +91,24 @@ void BasicAccDecoderPacket_Handler(int address, boolean activate, byte data)
   address += (data & 0x06) >> 1; //0x betekend volgende getal is hex, dus hier staat Hex6 of 0000 0110, data bitwise vergelijken met Hex6
   boolean enable = (data & 0x01) ? 1 : 0; //enabled wordt waar als de bitwise vergelijking na het =teken waar is, data komt uit de dccdecoder.
 
-  /*
-       // eenvoudige DCC monitor, toont ontvangen accessoire status. optioneel
-      Serial.print(enable); //1 voor aan, 0 voor uit
-      Serial.print(" ");
-      Serial.print(address); // adres van de gemuteerde accessory komt 4x langs na ingstelde tijd op de ecos nogmaals 4x
-
-      // * Normaal heb je een wisselschakelaar op een adres staan dus de eerste 4 doorlopen zetten stroom op de spoel, de tweede
-      // * set doorlopen zetten de straaom weer uit. Dat dus voor de aan en de uit stand, links of rechts.
-
-      Serial.println();
-  */
   if (PROGRAM == 10 and DCCO1 == false) {
     ODCCA = address;  //dcc adres in programmeerstand doorgeven
     DCCO1 = true; //zorgt dat er niet opnieuw een adress wordt geschreven.
     DCCO2 = false; //rest nu wachten tot dcc signaal is verwerkt in void knop (program=10)
   }
-
-
-
   for (int i = 0; i < AS; i++)
   {
-    /*
-       BasicAccDecoderPacket_Handler aangeroepen vanuit de included dcc decoder geeft hier alle gemuteerde accessoire boodschappen
-       dus alle adressen, en of ze waar of onwaar zijn geworden. Onderstaande vergelijkt dit adres met de ingestelde adressen
-       voor deze decoders en zet dan de dccstate waar of niet waar.
-    */
     if (address == accessory[i].address)
     {
       if (enable) accessory[i].dccstate = 1; //dus als enable waar is dan wordt hier de dcc state waar gezet..
       else accessory[i].dccstate = 0; //of weer uit gezet...
     }
   }
-} //END BasicAccDecoderPacket_Handler
+} 
 //**********************************************************************
 //Einde definities DCC decoder
 //**********************************************************************
+
 //Steppers aanmaken in accelsteppers.
 AccelStepper ST0(AccelStepper::FULL4WIRE, 6, 4, 5, 3); //Keer volgorde om voor draairichting.
 AccelStepper ST1(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
