@@ -1,8 +1,9 @@
 /*
   www.Wisselmotor.nl
 
-  Wisselaandrijving Versie 2.04 (WA-V2.04)
- december 2017
+  Wisselaandrijving Versie 2.04
+december 2017
+
 
   Programma voor wissel-aandrijvingen voor de modelspoorbaan
   Door: Rob Antonisse, Hoofddorp
@@ -59,6 +60,10 @@ int ODCCA = 0; //Ontvangen DCC Adress, voor programmeerstand
 boolean DCCO1 = false; // om aan te geven dat er een dcc signaal is ontvangen in programmeer stand
 boolean DCCO2 = false; // geeft aan of het ontvangen DCC signaal is verwerkt.
 
+//************STEPPER DRAAIRICHTING
+boolean REV =true;  //maak dit true bij Steppers die de 'verkeerde kant op draaien
+//Gebleken is dat niet alle 28BYJ-48 dezelfde standaard draairichting hebben
+
 
 typedef struct { //Declaratie van een tabel voor invoer van de dcc adressen.
   int               address;          // (mensen) adres
@@ -110,20 +115,15 @@ com met library decoder
 //**********************************************************************
 
 //Steppers aanmaken in accelsteppers.
-
-//Draairchting kan verschild soms per fabrikant van de 28BYJ-48 dus twee versies
-//normaal
-
-	//AccelStepper ST0(AccelStepper::FULL4WIRE, 6, 4, 5, 3); //Keer volgorde om voor draairichting.
-	//AccelStepper ST1(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
-	//AccelStepper ST2(AccelStepper::FULL4WIRE, A3, A1, A2, A0);
-
-//reversed
-	AccelStepper ST0(AccelStepper::FULL4WIRE, 3,5,4,6); //Keer volgorde om voor draairichting.
-	AccelStepper ST1(AccelStepper::FULL4WIRE, 8,10,9,11);
-	AccelStepper ST2(AccelStepper::FULL4WIRE, A0,A2,A1,A3);
-
-//Slecht een van beide actief maken.
+if (REV==false){
+AccelStepper ST0(AccelStepper::FULL4WIRE, 6, 4, 5, 3); //Keer volgorde om voor draairichting.
+AccelStepper ST1(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
+AccelStepper ST2(AccelStepper::FULL4WIRE, A3, A1, A2, A0);
+}else{
+AccelStepper ST0(AccelStepper::FULL4WIRE, 3, 5, 4, 6); //Keer volgorde om voor draairichting.
+AccelStepper ST1(AccelStepper::FULL4WIRE, 8,10,9,11);
+AccelStepper ST2(AccelStepper::FULL4WIRE, A0,A2,A1,A3);
+}
 
 
 
