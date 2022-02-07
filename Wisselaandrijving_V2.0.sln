@@ -5,13 +5,12 @@ VisualStudioVersion = 15.0.28307.1684
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wisselaandrijving_V2.0", "Wisselaandrijving_V2.0.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WisselAandrijving_V3.01", "..\WisselAandrijving_V3.01\WisselAandrijving_V3.01.vcxproj", "{4AEF6A45-8383-4707-936E-38F6C39D2EE4}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NmraDcc-master-2.0.8", "Libraries\NmraDcc-master\2.0.8\NmraDcc-master\NmraDcc-master-2.0.8.vcxitems", "{DBA630A5-30F3-46E0-A24E-6A966AF4DCF5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WisselAandrijving_V3.01", "WisselAandrijving_V3.01\WisselAandrijving_V3.01.vcxproj", "{4AEF6A45-8383-4707-936E-38F6C39D2EE4}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Libraries\NmraDcc-master\2.0.8\NmraDcc-master\NmraDcc-master-2.0.8.vcxitems*{4aef6a45-8383-4707-936e-38f6c39d2ee4}*SharedItemsImports = 4
 		Libraries\NmraDcc-master\2.0.8\NmraDcc-master\NmraDcc-master-2.0.8.vcxitems*{dba630a5-30f3-46e0-a24e-6a966af4dcf5}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
