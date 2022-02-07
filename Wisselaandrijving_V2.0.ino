@@ -115,14 +115,14 @@ com met library decoder
 //Draairchting kan verschild soms per fabrikant van de 28BYJ-48 dus twee versies
 //normaal
 
-	//AccelStepper ST0(AccelStepper::FULL4WIRE, 6, 4, 5, 3); //Keer volgorde om voor draairichting.
-	//AccelStepper ST1(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
-	//AccelStepper ST2(AccelStepper::FULL4WIRE, A3, A1, A2, A0);
+	AccelStepper ST0(AccelStepper::FULL4WIRE, 6, 4, 5, 3); //Keer volgorde om voor draairichting.
+	AccelStepper ST1(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
+	AccelStepper ST2(AccelStepper::FULL4WIRE, A3, A1, A2, A0);
 
 //reversed
-	AccelStepper ST0(AccelStepper::FULL4WIRE, 3,5,4,6); //Keer volgorde om voor draairichting.
-	AccelStepper ST1(AccelStepper::FULL4WIRE, 8,10,9,11);
-	AccelStepper ST2(AccelStepper::FULL4WIRE, A0,A2,A1,A3);
+	//AccelStepper ST0(AccelStepper::FULL4WIRE, 3,5,4,6); //Keer volgorde om voor draairichting.
+	//AccelStepper ST1(AccelStepper::FULL4WIRE, 8,10,9,11);
+	//AccelStepper ST2(AccelStepper::FULL4WIRE, A0,A2,A1,A3);
 
 //Slecht een van beide actief maken.
 
