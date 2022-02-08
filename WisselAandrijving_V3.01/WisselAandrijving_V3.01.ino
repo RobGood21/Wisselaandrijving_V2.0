@@ -46,7 +46,6 @@ NmraDcc  Dcc;
 
 //#include <DCC_Decoder.h>
 //****Declaraties variabelen *****
-//#define kDCC_INTERRUPT 0 //Benodigd, dcc.setupdecoder
 const byte AS = 3; //Aantal steppers, en DCC adressen
 int KK; //KK= Keuze knop Welke Stepper wordt met de knop omgeschakeld (eeprom geheugen Byte 0)
 boolean KNOPLR = false; //drukknop voor omschakeling richting
@@ -84,39 +83,6 @@ void ConfigureDecoderFunctions() //adressen opgeven aangeroepen uit void setup
 	accessory[2].address = ODCCA + 2;
 }  // END ConfigureDecoderFunctions
 
-
-/*
-
-void BasicAccDecoderPacket_Handler(int address, boolean activate, byte data)
-
-//com met library decoder
-
-{
-	address -= 1;
-	address *= 4;
-	address += 1;
-	address += (data & 0x06) >> 1; //0x betekend volgende getal is hex, dus hier staat Hex6 of 0000 0110, data bitwise vergelijken met Hex6
-	boolean enable = (data & 0x01) ? 1 : 0; //enabled wordt waar als de bitwise vergelijking na het =teken waar is, data komt uit de dccdecoder.
-
-	if (PROGRAM == 10 and DCCO1 == false) {
-		ODCCA = address;  //dcc adres in programmeerstand doorgeven
-		DCCO1 = true; //zorgt dat er niet opnieuw een adress wordt geschreven.
-		DCCO2 = false; //rest nu wachten tot dcc signaal is verwerkt in void knop (program=10)
-	}
-	for (int i = 0; i < AS; i++)
-	{
-		if (address == accessory[i].address)
-		{
-			if (enable) accessory[i].dccstate = 1; //dus als enable waar is dan wordt hier de dcc state waar gezet..
-			else accessory[i].dccstate = 0; //of weer uit gezet...
-		}
-	}
-}
-*/
-
-
-//**********************************************************************
-//Einde definities DCC decoder
 //**********************************************************************
 
 //Steppers aanmaken in accelsteppers.
